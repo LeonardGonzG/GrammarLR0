@@ -1,9 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Graphviz;
+
+import java.io.IOException;
 
 /**
  *
@@ -14,12 +12,12 @@ public class TestPaint {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
          Paint test = new Paint();
         
-       /// test.writeDocument();
+       test.writeDocument("");
        test.loadDocument();
-        System.out.println("Ok!!");
+       System.out.println("Ok!!");
     }
     
 }

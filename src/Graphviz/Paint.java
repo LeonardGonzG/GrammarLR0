@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class Paint {
 
-    public void writeDocument() throws IOException {
+    public void writeDocument(String texto) throws IOException {
 
         File img = new File("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\LR0\\src\\Graphviz\\File\\AutomatonGrammar.png");
 
@@ -24,12 +24,13 @@ public class Paint {
         } else {
             System.out.println("El fichero no puede ser borrado");
         }
+        
 
+ 
         FileWriter fichero = new FileWriter("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\LR0\\src\\Graphviz\\File\\file.dot");
 
-        String file = "";
 
-        fichero.write(file);
+        fichero.write(texto);
         fichero.close();
     }
 
