@@ -38,28 +38,28 @@ public class LR0 {
                 }
 
             }
-            
+
             //revisar la primera produccón y hacer la transición
             for (int n = 0; n < lr.row.size(); n++) {
 
                 if (lr.row.get(n).COD == codSave) {
 
-                    lr.row.get(n).Is = IsSave + 1;
+                    lr.row.get(n).Id = IsSave + 1;
                     lr.row.get(n).transition = aux;
-                    lr.row.get(n).checked= true;
-                    lr.row.get(n).reducied=false;
+                    lr.row.get(n).checked = true;
+                    lr.row.get(n).reducied = false;
 
                     //agregamos las nuevas producciones que pasan al siguiente estado con la transición
                     for (int x = 0; x < lr.gramUser.size(); x++) {
 
-                        if (lr.gramUser.get(x).getNT().equals(aux)) {
+                        if (identifyPointNT(lr.gramUser.get(x).getMyList(), aux)) {
 
                             codPlus++;
-                            
+
                             //Mueve el punto de la producción y crea un nuevo NTProduccion
-                            NTProduction auxP = new NTProduction(lr.gramUser.get(x).getNT(), movePoint(lr.gramUser.get(x).getMyList()) );
+                            NTProduction auxP = new NTProduction(lr.gramUser.get(x).getNT(), movePoint(lr.gramUser.get(x).getMyList()));
                             lr.row.add(new ProductionLR0(codPlus, IsSave, -1, "*", auxP, false, false));
-                       
+
                         }
 
                     }
@@ -67,14 +67,17 @@ public class LR0 {
                 }
 
             }//fin revisión
-            
+
+            System.out.println("Finzaliza primera parte");
             return;
+            
 
         }
 
     }
 ///-------------------------------------------------------------------
-public boolean identifyPointNT(List<String> rowProd, String letter) {
+
+    public boolean identifyPointNT(List<String> rowProd, String letter) {
 
         for (int i = 0; i < rowProd.size(); i++) {
 
@@ -159,6 +162,24 @@ public boolean identifyPointNT(List<String> rowProd, String letter) {
         }
 
         return "Error identify before point";
+
+    }
+
+//View table    
+    public void viewRowsTable() {
+
+        for (int m = 0; m < lr.row.size(); m++) {
+
+            System.out.println("COD " +lr.row.get(m).COD);
+            System.out.println("Is " +lr.row.get(m).Is);
+            System.out.println("Id " +lr.row.get(m).Id);
+            System.out.println("Transic " + lr.row.get(m).transition);
+            System.out.println("Reduc " +lr.row.get(m).reducied);
+            System.out.println("Producción " +lr.row.get(m).NTComplet.getNT()+" -> "+lr.row.get(m).NTComplet.getMyList().toString());
+            System.out.println("Check " +lr.row.get(m).checked);
+            System.out.println("--------------------------------------------------");
+
+        }
 
     }
 

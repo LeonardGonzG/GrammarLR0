@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import LR0.LR0;
 import LR0.NTProduction;
 import LR0.TableLR0;
 import java.io.BufferedReader;
@@ -116,6 +117,13 @@ public class UserLR0 extends javax.swing.JFrame {
     private void jCheckBoxMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem2ActionPerformed
        
            
+        tableM= new TableLR0("Example",gramUser);
+        
+        LR0 test = new LR0(tableM);
+        test.lr0(tableM, 0, 0, 0, 0, 0);
+        test.viewRowsTable();
+      
+        
     }//GEN-LAST:event_jCheckBoxMenuItem2ActionPerformed
 
     /**
@@ -185,7 +193,7 @@ public class UserLR0 extends javax.swing.JFrame {
         fileText.setText(texto);
         
         
-        tableM= new TableLR0("Example",gramUser);
+        //tableM= new TableLR0("Example",gramUser);
         
       //  seeArray(tableM.getGramUser());
         //System.out.println(tableM.getNameTable());
