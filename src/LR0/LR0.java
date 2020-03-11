@@ -9,6 +9,9 @@ import java.util.List;
 public class LR0 {
 
     TableLR0 lr;
+    int pointerCod;
+    int pointerCodEnd;
+    int pointerId;
 
     public LR0(TableLR0 lr) {
         this.lr = lr;
@@ -35,6 +38,7 @@ public class LR0 {
 
                     codPlus++;
                     lr.row.add(new ProductionLR0(codPlus, IsSave, -1, "*", lr.gramUser.get(x), false, false));
+                    this.pointerCodEnd=codPlus;
                 }
 
             }
@@ -60,6 +64,8 @@ public class LR0 {
                             NTProduction auxP = new NTProduction(lr.gramUser.get(x).getNT(), movePoint(lr.gramUser.get(x).getMyList()));
                             lr.row.add(new ProductionLR0(codPlus, IsSave, -1, "*", auxP, false, false));
 
+                            this.pointerCod=codPlus;
+                            this.pointerId=IsSave+1;
                         }
 
                     }
@@ -68,11 +74,25 @@ public class LR0 {
 
             }//fin revisión
 
-            System.out.println("Finzaliza primera parte");
-            return;
+          //  System.out.println("Finzaliza primera parte");
+            lr0(lr, codPlus, codSave, IsSave, IsSave+1, this.pointerCod);
             
 
+        }else if(codPlus==this.pointerCodEnd){
+        
+            return;
+        
+        }else{
+        
+        
+        
+        
+        
         }
+        ///Continuación de condicional
+        
+        
+        
 
     }
 ///-------------------------------------------------------------------
