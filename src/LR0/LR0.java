@@ -1,5 +1,7 @@
 package LR0;
 
+import java.util.List;
+
 /**
  *
  * @author Usuario
@@ -14,21 +16,100 @@ public class LR0 {
 
     public void lr0(TableLR0 lr, int codPlus, int codSave, int IsSave, int IdSave, int puntero) {
 
-        String aux="";
-        
+        String aux = "";
+
         if (codPlus == 0) {
 
-            lr.row.add(new ProductionLR0(codPlus + 1, IsSave, -1, "*", lr.gramUser.get(0), false, false));
+            codPlus++; // codPlus = 1
+            codSave = codPlus;
+
+            lr.row.add(new ProductionLR0(codPlus, IsSave, -1, "*", lr.gramUser.get(0), false, false));
             puntero = codPlus + 1;
+
+            aux = identifyAfterPoint(lr.gramUser.get(0));
+
+            //Agregar las nuevas producciones a la table despues de ubicar la letra después del punto
+            for (int x = 0; x < lr.gramUser.size(); x++) {
+
+                if (lr.gramUser.get(x).getNT().equals(aux)) {
+
+                    codPlus++;
+                    lr.row.add(new ProductionLR0(codPlus, IsSave, -1, "*", lr.gramUser.get(x), false, false));
+                }
+
+            }
             
-            aux=identifyAfterPoint(lr.gramUser.get(0));
+            //revisar la primera produccón y hacer la transición
+            for (int n = 0; n < lr.row.size(); n++) {
+
+                if (lr.row.get(n).COD == codSave) {
+
+                    lr.row.get(n).Is = IsSave + 1;
+                    lr.row.get(n).transition = aux;
+                    lr.row.get(n).checked= true;
+                    lr.row.get(n).reducied=false;
+
+                    //agregamos las nuevas producciones que pasan al siguiente estado con la transición
+                    for (int x = 0; x < lr.gramUser.size(); x++) {
+
+                        if (lr.gramUser.get(x).getNT().equals(aux)) {
+
+                            codPlus++;
+                            
+                            //Mueve el punto de la producción y crea un nuevo NTProduccion
+                            NTProduction auxP = new NTProduction(lr.gramUser.get(x).getNT(), movePoint(lr.gramUser.get(x).getMyList()) );
+                            lr.row.add(new ProductionLR0(codPlus, IsSave, -1, "*", auxP, false, false));
+                       
+                        }
+
+                    }
+
+                }
+
+            }//fin revisión
+            
+            return;
+
         }
 
     }
+///-------------------------------------------------------------------
+public boolean identifyPointNT(List<String> rowProd, String letter) {
 
-    
-    
-    
+        for (int i = 0; i < rowProd.size(); i++) {
+
+            int a = i + 1;
+
+            if (rowProd.get(i).equals(".") && rowProd.get(a).equals(letter)) {
+
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+////-----------------------------------------------------------------------
+    public List<String> movePoint(List<String> rowProd) {
+
+        for (int i = 0; i < rowProd.size(); i++) {
+
+            if (rowProd.get(i).equals(".")) {
+
+                rowProd.set(i, " ");
+                int aux = i + 2;
+                rowProd.set(aux, ".");
+
+                return rowProd;
+            }
+
+        }
+
+        return rowProd;
+
+    }
+
 ///----------------------------------------------------------------------------
     public String identifyAfterPoint(NTProduction prod) {
 
@@ -61,6 +142,7 @@ public class LR0 {
 
     }
 ///-------------------------------------------------------------------------------------
+
     public String identifyBeforePoint(NTProduction prod) {
 
         int pos = 0;

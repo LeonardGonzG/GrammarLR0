@@ -15,7 +15,7 @@ public class TestPaint {
     public static void main(String[] args) throws IOException {
          Paint test = new Paint();
         
-       test.writeDocument("");
+       //test.writeDocument("");
        test.loadDocument();
        System.out.println("Ok!!");
     }
