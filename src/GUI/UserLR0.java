@@ -5,10 +5,14 @@
  */
 package GUI;
 
+import LR0.NTProduction;
+import LR0.TableLR0;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -18,9 +22,11 @@ import javax.swing.JOptionPane;
  */
 public class UserLR0 extends javax.swing.JFrame {
 
-    /**
-     * Creates new form UserLR0
-     */
+    
+    List<NTProduction> gramUser = new ArrayList<>();
+    
+    TableLR0 tableM;
+    
     public UserLR0() {
         initComponents();
        
@@ -59,7 +65,6 @@ public class UserLR0 extends javax.swing.JFrame {
 
         jMenu2.setText("File");
         jMenu2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jMenu2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("Load File");
@@ -75,7 +80,6 @@ public class UserLR0 extends javax.swing.JFrame {
         jMenu3.setBackground(new java.awt.Color(204, 255, 255));
         jMenu3.setText("Simulator");
         jMenu3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jMenu3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         jCheckBoxMenuItem2.setSelected(true);
         jCheckBoxMenuItem2.setText("LR(0)");
@@ -98,7 +102,7 @@ public class UserLR0 extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
         );
 
         pack();
@@ -106,18 +110,12 @@ public class UserLR0 extends javax.swing.JFrame {
 
     private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
         
-        abrirArchivo();
-        
-        
-        
-        
+        abrirArchivo();   
     }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
 
     private void jCheckBoxMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem2ActionPerformed
        
-        
-        
-        
+           
     }//GEN-LAST:event_jCheckBoxMenuItem2ActionPerformed
 
     /**
@@ -156,27 +154,25 @@ public class UserLR0 extends javax.swing.JFrame {
     }
 
     private void abrirArchivo() {
-        String aux = "";
+       String aux = "";
        String texto = "";
+       
+       
         try {
-            /**
-             * llamamos el metodo que permite cargar la ventana
-             */
+
             JFileChooser file = new JFileChooser();
             file.showOpenDialog(this);
-            /**
-             * abrimos el archivo seleccionado
-             */
             File abre = file.getSelectedFile();
 
-            /**
-             * recorremos el archivo, lo leemos para plasmarlo en el area de texto
-             */
             if (abre != null) {
                 FileReader archivos = new FileReader(abre);
                 BufferedReader lee = new BufferedReader(archivos);
                 while ((aux = lee.readLine()) != null) {
                     texto += aux + "\n";
+                   
+                    String cadena[]=aux.split(" ");
+                    
+                    gramUser.add(new NTProduction(cadena[0], cadena));
                 }
                 lee.close();
             }
@@ -187,7 +183,24 @@ public class UserLR0 extends javax.swing.JFrame {
         }
        
         fileText.setText(texto);
-// return texto;//El texto se almacena en el JTextArea
+        
+        
+        tableM= new TableLR0("Example",gramUser);
+        
+      //  seeArray(tableM.getGramUser());
+        //System.out.println(tableM.getNameTable());
+    }
+    
+    
+    
+    public void seeArray(List<NTProduction> gramUser){
+    
+        for (int i = 0; i < gramUser.size(); i++) {
+            
+            System.out.println(gramUser.get(i).getNT());
+            System.out.println(gramUser.get(i).getMyList().toString());
+            System.out.println("------------------------------------------");
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea fileText;

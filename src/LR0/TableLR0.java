@@ -5,22 +5,45 @@
  */
 package LR0;
 
-/**
- *
- * @author Usuario
- */
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class TableLR0 {
     
-    protected int COD;
-    protected int Is;
-    protected int Id;
-    protected String transition;
-    protected boolean reducied;
-    protected NTProduction NTComplet;
-    protected boolean checked;
+    
+    private String nameTable;
+    private List<NTProduction> gramUser = new ArrayList<>();
+    private ArrayList<ProductionLR0> row= new ArrayList<>();
+
+    public TableLR0(String nameTable, List<NTProduction> mainGrammar) {
+       
+        this.nameTable = nameTable;
+        this.gramUser= mainGrammar;
+    }
+
+    public List<NTProduction> getGramUser() {
+        return gramUser;
+    }
+
+    public void setGramUser(List<NTProduction> gramUser) {
+        this.gramUser = gramUser;
+    }
+
+    public ArrayList<ProductionLR0> getRow() {
+        return row;
+    }
+
+    public void setRow(ArrayList<ProductionLR0> row) {
+        this.row = row;
+    }
+
+    public String getNameTable() {
+        return nameTable;
+    }
     
     
-    
-    
+
+ 
     
 }

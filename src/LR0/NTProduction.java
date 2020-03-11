@@ -17,14 +17,32 @@ public class NTProduction {
     private String NT;
     private  List<String> myList = new ArrayList<>();
     
-    public NTProduction(String NTComplete, List<String> myList){
+    public NTProduction(String NTComplete, String [] myList){
         this.NT=NTComplete;
-        this.myList=myList;
+        
+        for(int i=2; i<myList.length; i++){
+        
+            this.myList.add(myList[i]);
+            this.myList.add(" ");
+            
+        }
     
     }
 
-   
-    
-    
-       
+    public List<String> getMyList() {
+        return myList;
+    }
+
+    public String getNT() {
+        return NT;
+    }
+
+    public void setMyList(List<String> myList) {
+        this.myList = myList;
+    }
+
+    public void setNT(String NT) {
+        this.NT = NT;
+    }
+      
 }
