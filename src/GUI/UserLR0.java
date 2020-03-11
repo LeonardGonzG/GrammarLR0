@@ -121,6 +121,7 @@ public class UserLR0 extends javax.swing.JFrame {
         
         LR0 test = new LR0(tableM);
         test.lr0(tableM, 0, 0, 0, 0, 0);
+        System.out.println("********************************");
         test.viewRowsTable();
       
         

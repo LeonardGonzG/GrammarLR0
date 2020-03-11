@@ -12,6 +12,7 @@ public class LR0 {
     int pointerCod;
     int pointerCodEnd;
     int pointerId;
+    String BeginNT;
 
     public LR0(TableLR0 lr) {
         this.lr = lr;
@@ -29,6 +30,8 @@ public class LR0 {
             lr.row.add(new ProductionLR0(codPlus, IsSave, -1, "*", lr.gramUser.get(0), false, false));
             puntero = codPlus + 1;
 
+            BeginNT = lr.gramUser.get(0).getNT();
+
             aux = identifyAfterPoint(lr.gramUser.get(0));
 
             //Agregar las nuevas producciones a la table despues de ubicar la letra después del punto
@@ -38,7 +41,7 @@ public class LR0 {
 
                     codPlus++;
                     lr.row.add(new ProductionLR0(codPlus, IsSave, -1, "*", lr.gramUser.get(x), false, false));
-                    this.pointerCodEnd=codPlus;
+                    this.pointerCodEnd = codPlus;
                 }
 
             }
@@ -59,13 +62,15 @@ public class LR0 {
                         if (identifyPointNT(lr.gramUser.get(x).getMyList(), aux)) {
 
                             codPlus++;
+                            IsSave++;
+                            IdSave++;
 
                             //Mueve el punto de la producción y crea un nuevo NTProduccion
                             NTProduction auxP = new NTProduction(lr.gramUser.get(x).getNT(), movePoint(lr.gramUser.get(x).getMyList()));
                             lr.row.add(new ProductionLR0(codPlus, IsSave, -1, "*", auxP, false, false));
 
-                            this.pointerCod=codPlus;
-                            this.pointerId=IsSave+1;
+                            this.pointerCod = codPlus;
+                            this.pointerId = IsSave + 1;
                         }
 
                     }
@@ -74,25 +79,89 @@ public class LR0 {
 
             }//fin revisión
 
-          //  System.out.println("Finzaliza primera parte");
-            lr0(lr, codPlus, codSave, IsSave, IsSave+1, this.pointerCod);
-            
+            //  System.out.println("Finzaliza primera parte");
+            // return;
+            lr0(lr, codPlus, codSave, IsSave, IdSave, this.pointerCod);
 
-        }else if(codPlus==this.pointerCodEnd){
-        
-            return;
-        
-        }else{
-        
-        
-        
-        
-        
+        } else if (codPlus == this.pointerCodEnd) {
+
+            //  return;
+        } else {
+
+            //  int codSaveView= codPlus;
+            for (int i = 0; i < lr.row.size(); i++) {
+
+                if (lr.row.get(i).Is == IsSave && !lr.row.get(i).checked) {
+
+                    aux = identifyBeforePoint(lr.row.get(i).NTComplet); ///error
+
+                    int opt = 0;
+
+                    if (aux.equals("EIBP")) {
+
+                        aux = identifyAfterPoint(lr.row.get(i).NTComplet);
+                        
+                        opt = 1;
+                    }
+
+                    if (aux.equals("$")) {
+
+                        //Encuentra reducido
+                        lr.row.get(i).transition = "*";
+                        lr.row.get(i).checked = true;
+                        lr.row.get(i).reducied = true;
+
+                        lr0(lr, codPlus, codSave, IsSave - 1, IdSave, this.pointerCod + 1);
+
+                    } else {
+
+
+                                IdSave++;
+
+                                lr.row.get(i).Id = IdSave;
+                                lr.row.get(i).transition = aux;
+                                lr.row.get(i).checked = true;
+                                lr.row.get(i).reducied = false;
+
+                                //Tener presente el before
+                                if (opt == 1) {///Terminal
+
+                                    codPlus++;
+ 
+                                    NTProduction auxP = new NTProduction(lr.gramUser.get(i).getNT(), movePoint(lr.gramUser.get(i).getMyList()));
+                                    lr.row.add(new ProductionLR0(codPlus, IdSave, -1, "*", auxP, false, false));
+                                    
+                                    IdSave++;
+                                  /*  //Agregar las nuevas producciones a la table despues de ubicar la letra después del punto
+                                    for (int x = 0; x < lr.gramUser.size(); x++) {
+
+                                        if (lr.gramUser.get(x).getNT().equals(aux)) {
+
+                                            codPlus++;
+                                            lr.row.add(new ProductionLR0(codPlus, IdSave, -1, "*", lr.gramUser.get(x), false, false));
+
+                                        }
+
+                                    }*/
+                                    
+                                    return;
+
+                                }
+                                /////Pasar a la siguiente tabla para seguir agregando tablas
+                                System.out.println("OK");
+                                return;
+
+                         
+
+                    }
+
+                    /////
+                }
+
+            }
+
         }
         ///Continuación de condicional
-        
-        
-        
 
     }
 ///-------------------------------------------------------------------
@@ -161,7 +230,7 @@ public class LR0 {
 
         }
 
-        return "Error identify after point";
+        return "EIAP";
 
     }
 ///-------------------------------------------------------------------------------------
@@ -172,16 +241,25 @@ public class LR0 {
 
         for (int i = 0; i < prod.getMyList().size(); i++) {
 
-            if (i > 0) {
+            String let = prod.getMyList().get(i);
+            if (i > 0 && prod.getMyList().get(i).equals(".")) {
 
-                pos = i - 1;
-                return prod.getMyList().get(pos);
+                int posEnd = prod.getMyList().size() - 1;
+
+                if (i == posEnd && prod.getMyList().get(i).equals(".")) {
+                    return "$";
+
+                } else {
+                    pos = i - 1;
+                    return prod.getMyList().get(pos);
+
+                }
 
             }
 
         }
 
-        return "Error identify before point";
+        return "EIBP";
 
     }
 
@@ -190,13 +268,13 @@ public class LR0 {
 
         for (int m = 0; m < lr.row.size(); m++) {
 
-            System.out.println("COD " +lr.row.get(m).COD);
-            System.out.println("Is " +lr.row.get(m).Is);
-            System.out.println("Id " +lr.row.get(m).Id);
+            System.out.println("COD " + lr.row.get(m).COD);
+            System.out.println("Is " + lr.row.get(m).Is);
+            System.out.println("Id " + lr.row.get(m).Id);
             System.out.println("Transic " + lr.row.get(m).transition);
-            System.out.println("Reduc " +lr.row.get(m).reducied);
-            System.out.println("Producción " +lr.row.get(m).NTComplet.getNT()+" -> "+lr.row.get(m).NTComplet.getMyList().toString());
-            System.out.println("Check " +lr.row.get(m).checked);
+            System.out.println("Reduc " + lr.row.get(m).reducied);
+            System.out.println("Producción " + lr.row.get(m).NTComplet.getNT() + " -> " + lr.row.get(m).NTComplet.getMyList().toString());
+            System.out.println("Check " + lr.row.get(m).checked);
             System.out.println("--------------------------------------------------");
 
         }
