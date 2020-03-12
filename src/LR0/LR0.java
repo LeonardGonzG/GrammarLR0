@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  *
- * @author Usuario
+ * @author Leonardo González Gutiérrez
  */
 public class LR0 {
 
@@ -124,13 +124,15 @@ public class LR0 {
                         //Tener presente el before
                         if (opt == 1) {///Datos no hay antes del punto, toca hacer la transacción
 
+                            codSave= codPlus+1;
+                            
                             codPlus++;
 
                            // System.out.println("----> "+movePoint(lr.gramUser.get(i).getMyList()).toString());
                             NTProduction auxA = new NTProduction(lr.gramUser.get(i).getNT(), movePoint(lr.gramUser.get(i).getMyList()));
                             lr.row.add(new ProductionLR0(codPlus, IdSave, -1, "*", auxA, false, false));
 
-                            // IdSave++;
+                          
                             int IsSaveBefore = IsSave;
 
                             for (int q = 0; q < lr.row.size(); q++) {
@@ -175,8 +177,9 @@ public class LR0 {
                                         }
 
                                         System.out.println("Agregamos la tabla I02");
-
-                                        return;
+///Continuación de recorrido por la tabla
+                                        //return;
+                                        break;
                                     }
 
                                 }
@@ -185,6 +188,18 @@ public class LR0 {
                         }///-----------------> opción con 1
                         /////Pasar a la siguiente tabla para seguir agregando tablas
                         System.out.println("OK");
+                        
+                        //Siguiente transición a la tabla próxima
+                        int a= codPlus;
+                        int b= IdSave; //IdSave
+                        int c= IdSave+1;// IsSave
+                        
+                        
+                        
+                        int p = this.pointerCod;
+                        
+                        lr0(lr, codPlus, codSave, c, b, this.pointerCod + 1);
+                        
                         return;
 
                     }
