@@ -15,7 +15,7 @@ import java.util.List;
 public class NTProduction {
 
     private String NT;
-    private List<String> myList = new ArrayList<>();
+    private ArrayList<String> myList = new ArrayList<>();
 
     public NTProduction(String NTComplete, String[] myList) {
         this.NT = NTComplete;
@@ -30,7 +30,7 @@ public class NTProduction {
 
     }
 
-    public NTProduction(String NTComplete, List<String> myList) {
+    public NTProduction(String NTComplete, ArrayList<String> myList) {
 
         this.NT = NTComplete;
         this.myList = myList;
@@ -45,7 +45,7 @@ public class NTProduction {
         return NT;
     }
 
-    public void setMyList(List<String> myList) {
+    public void setMyList(ArrayList<String> myList) {
         this.myList = myList;
     }
 
