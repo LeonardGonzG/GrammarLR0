@@ -18,6 +18,7 @@ public class ProductionLR0 {
     protected NTProduction NTComplet;
     protected boolean reducied;
     protected boolean checked;
+    protected int back;
 
     public ProductionLR0(int COD, int Is, int Id, String transition, NTProduction NTComplet, boolean reducied, boolean checked) {
         this.COD = COD;
@@ -27,6 +28,7 @@ public class ProductionLR0 {
         this.NTComplet = NTComplet;
         this.reducied = reducied;
         this.checked = checked;
+        this.back=0;
     }
     
     
