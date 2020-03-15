@@ -5,7 +5,8 @@
  */
 package Graphviz;
 
-import java.io.File;
+import LR0.LR0;
+import LR0.ProductionLR0;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -15,20 +16,26 @@ import java.io.IOException;
  */
 public class Paint {
 
-    public void writeDocument(String texto) throws IOException {
-/*
-        File img = new File("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\LR0\\src\\Graphviz\\File\\AutomatonGrammar.png");
+    String point = "&bull;";
+    String rowLetter = "-&gt;";
+    String parentOpen = "&#40;";
+    String parentClose = "&#41;";
+    String reducidedProd = "<td bgcolor=\"grey\" align=\"right\">$</td></tr>";
 
-        if (img.delete()) {
-            System.out.println("El fichero ha sido borrado satisfactoriamente");
-        } else {
-            System.out.println("El fichero no puede ser borrado");
-        }
-        */
+    public void writeDocument(LR0 table) throws IOException {
+        /*
+         File img = new File("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\LR0\\src\\Graphviz\\File\\AutomatonGrammar.png");
 
- 
+         if (img.delete()) {
+         System.out.println("El fichero ha sido borrado satisfactoriamente");
+         } else {
+         System.out.println("El fichero no puede ser borrado");
+         }
+         */
+
         FileWriter fichero = new FileWriter("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\LR0\\src\\Graphviz\\File\\file.dot");
 
+        String texto = "";
 
         fichero.write(texto);
         fichero.close();
@@ -71,6 +78,95 @@ public class Paint {
             ex.printStackTrace();
         } finally {
         }
+    }
+
+    public String makeDocument(LR0 t) {
+
+        String m = "digraph g {graph [fontsize=30 labelloc=\"t\" label=\"\" splines=true overlap=false rankdir = \"LR\"];ratio = auto;" + "\n";
+
+        int numStatesTable=numStates(t);
+        
+        //construir nodos
+        int contCodEnd = 0;
+
+        String nameState = "";
+
+        while (contCodEnd <= numStatesTable) {
+
+            nameState = "state" + contCodEnd;
+            m += "\"" + nameState + "\" [ style = \"filled, bold\" penwidth = 5 fillcolor = \"white\" fontname = \"Courier New\" shape = \"Mrecord\" label =<" + "\n";
+            m += "<table border=\"0\" cellborder=\"0\" cellpadding=\"3\" bgcolor=\"white\">" + "\n";
+
+            for (int i = 0; i < t.lr.row.size(); i++) {
+
+                if (t.lr.row.get(i).Is == contCodEnd) {
+
+                    m += makeProdState(t.lr.row.get(i));
+                }
+
+            }
+            m += "</table>> ];" + "\n" + "\n";
+            contCodEnd++;
+        }
+
+        for (int x = 0; x < t.lr.row.size(); x++) {
+
+            if (t.lr.row.get(x).Id > 0 && t.lr.row.get(x).Id < 9999) {
+                String trans = "state" + t.lr.row.get(x).Is + " -> " + "state" + t.lr.row.get(x).Id + " "
+                        + "[ penwidth = 5 fontsize = 28 fontcolor = \"black\" label = \"" + t.lr.row.get(x).transition + "\" ];" + "\n";
+                m += trans;
+
+            }
+        }
+
+        m += "}";
+
+        return m;
+
+    }
+
+    public String makeProdState(ProductionLR0 m) {
+
+        String prod = "<tr><td align=\"left\" port=\"r0\">";
+
+        prod += parentOpen + m.COD + parentClose + " " + m.NTComplet.getNT() + rowLetter;
+
+        for (int k = 0; k < m.NTComplet.getMyList().size(); k++) {
+
+            if (m.NTComplet.getMyList().get(k).equals(".")) {
+
+                prod += point;
+            } else {
+
+                prod += m.NTComplet.getMyList().get(k);
+            }
+        }
+
+        prod += "</td>";
+
+        if (m.reducied) {
+            prod += reducidedProd;
+
+        }
+        prod += "</tr>";
+
+        return prod;
+
+    }
+
+    public int numStates(LR0 t) {
+
+        int v = 0;
+
+        for (int c = 0; c < t.lr.row.size(); c++) {
+            if (t.lr.row.get(c).Is > v) {
+                v = t.lr.row.get(c).Is;
+            }
+
+        }
+        
+        return v;
+
     }
 
 }

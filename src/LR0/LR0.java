@@ -9,9 +9,9 @@ import java.util.List;
  */
 public class LR0 {
 
-    TableLR0 lr;
+    public TableLR0 lr;
     int pointerCod;
-    int pointerCodEnd;
+    public int pointerCodEnd;
     int pointerId;
     int backStates;
     String BeginNT;
@@ -96,7 +96,7 @@ public class LR0 {
                         lr.row.get(i).reducied = false;
                         lr.row.get(i).transition = aux;
 
-                        ////SEGUIR ORGANIZANDO
+                    
                         //Miramos primero que hay antes del punto                   
                         ArrayList<String> copia = (ArrayList<String>) lr.row.get(i).NTComplet.getMyList();
                         NTProduction auxA = new NTProduction(lr.row.get(i).NTComplet.getNT(), movePoint((ArrayList<String>) copia.clone()));
@@ -114,7 +114,9 @@ public class LR0 {
                         codPlus = NTAfterPointProd(codPlus, m, IdSave, this.backStates);
 
                         lr0(lr, codPlus, codSave, IdSave, IdSave + 1, this.pointerCod);
+                        //////FINALIZACIÓN DE ALGOTIMO
                         
+                        //FALTA VERIFICAR QUE LOS ESTADOS YA EXISTEN
                         return;
 
                     }
@@ -470,5 +472,9 @@ public class LR0 {
         }
 
     }
+
+ 
+    
+    
 
 }

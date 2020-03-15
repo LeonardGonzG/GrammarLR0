@@ -13,8 +13,8 @@ public class TableLR0 {
     
     
     private String nameTable;
-     List<NTProduction> gramUser = new ArrayList<>();
-     ArrayList<ProductionLR0> row= new ArrayList<>();
+    List<NTProduction> gramUser = new ArrayList<>();
+    public ArrayList<ProductionLR0> row= new ArrayList<>();
 
     public TableLR0(String nameTable, List<NTProduction> mainGrammar) {
        

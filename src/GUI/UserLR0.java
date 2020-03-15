@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import Graphviz.Paint;
 import LR0.LR0;
 import LR0.NTProduction;
 import LR0.TableLR0;
@@ -119,10 +120,15 @@ public class UserLR0 extends javax.swing.JFrame {
            
         tableM= new TableLR0("Example",gramUser);
         
+        Paint write = new Paint();
+        
         LR0 test = new LR0(tableM);
         test.lr0(tableM, 0, 0, 0, 0, 0);
         System.out.println("********************************");
-        test.viewRowsTable();
+       // test.viewRowsTable();
+        
+      String doc=  write.makeDocument(test);
+        System.out.println(doc);
       
         
     }//GEN-LAST:event_jCheckBoxMenuItem2ActionPerformed

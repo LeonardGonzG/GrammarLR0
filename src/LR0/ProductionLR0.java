@@ -11,14 +11,14 @@ package LR0;
  */
 public class ProductionLR0 {
     
-    protected int COD;
-    protected int Is;
-    protected int Id;
-    protected String transition;
-    protected NTProduction NTComplet;
-    protected boolean reducied;
-    protected boolean checked;
-    protected int back;
+    public int COD;
+    public int Is;
+    public int Id;
+    public String transition;
+    public NTProduction NTComplet;
+    public boolean reducied;
+    public boolean checked;
+    public int back;
 
     public ProductionLR0(int COD, int Is, int Id, String transition, NTProduction NTComplet, boolean reducied, boolean checked) {
         this.COD = COD;
