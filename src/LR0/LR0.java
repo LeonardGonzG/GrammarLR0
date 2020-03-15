@@ -76,49 +76,50 @@ public class LR0 {
 
                             int m = lr.row.get(i).back;
 
+//                            viewRowsTable();
+//                            System.out.println("............................................");
+
                             lr0(lr, codPlus, codSave, lr.row.get(i).back, IdSave, this.pointerCod + 1);
                         } else {
 
+//                            viewRowsTable();
+//                            System.out.println("............................................");
                             lr0(lr, codPlus, codSave, this.backStates, IdSave + 1, this.pointerCod);
 
                         }
 
                     } else {
-                        
-                        
-                        
+
+                        lr.row.get(i).Id = IdSave;
+                        lr.row.get(i).back = this.backStates;
+                        lr.row.get(i).checked = true;
+                        lr.row.get(i).reducied = false;
+                        lr.row.get(i).transition = aux;
+
                         ////SEGUIR ORGANIZANDO
+                        //Miramos primero que hay antes del punto                   
+                        ArrayList<String> copia = (ArrayList<String>) lr.row.get(i).NTComplet.getMyList();
+                        NTProduction auxA = new NTProduction(lr.row.get(i).NTComplet.getNT(), movePoint((ArrayList<String>) copia.clone()));
+
+                        this.backStates = IsSave;
+
+                        codPlus++;
+
+                        ProductionLR0 aN = new ProductionLR0(codPlus, IdSave, -3333, "*", auxA, false, false);
+                        aN.back = this.backStates;
+                        lr.row.add(aN);
+
+                        String m = identifyAfterPoint(auxA);
+                        //Agregar estados después del punto
+                        codPlus = NTAfterPointProd(codPlus, m, IdSave, this.backStates);
+
+                        lr0(lr, codPlus, codSave, IdSave, IdSave + 1, this.pointerCod);
                         
-                        
-                         //Miramos primero que hay antes del punto
-                        aux = identifyBeforePoint(lr.row.get(i).NTComplet);
-
-                        if (aux.equals("EIBP")) {
-
-                            String m = identifyAfterPoint(lr.row.get(i).NTComplet);
-
-                            lr.row.get(i).Id = IdSave;
-                            lr.row.get(i).back = this.backStates;
-                            lr.row.get(i).checked = true;
-                            lr.row.get(i).reducied = false;
-                            lr.row.get(i).transition = m;
-
-                           
-                            // Mirar en el estado anterior que prducciones iguales tiene igual letra antes del punto
-                            codPlus =  recursionTablaBefore(codPlus, this.backStates, IsSave,  m);
-                            
-                             //    lr0(lr, codPlus, codSave, IsSave + 1, IdSave + 1, this.pointerCod);
-                            
-                            return;
-                        }
+                        return;
 
                     }
-                    
-                    
-                    
-                    
-                    
-                    
+
+                    break;
 
                 }
 
@@ -129,15 +130,18 @@ public class LR0 {
 
                     lr.row.get(i).checked = true;
 
-                    ArrayList<String> copia = (ArrayList<String>) lr.gramUser.get(i).getMyList();
-                    NTProduction auxA = new NTProduction(lr.gramUser.get(i).getNT(), movePoint((ArrayList<String>) copia.clone()));
+                    ArrayList<String> copia = (ArrayList<String>) lr.row.get(i).NTComplet.getMyList();
+                    NTProduction auxA = new NTProduction(lr.row.get(i).NTComplet.getNT(), movePoint((ArrayList<String>) copia.clone()));
 
                     codPlus++;
 
-                    ProductionLR0 aN = new ProductionLR0(codPlus, IdSave, 0, "*", auxA, false, false);
+                    ProductionLR0 aN = new ProductionLR0(codPlus, IdSave, -22222, "*", auxA, false, false);
                     aN.back = this.backStates;
 
                     lr.row.add(aN);
+
+//                    viewRowsTable();
+//                    System.out.println("............................................");
 
                     lr0(lr, codPlus, codSave, IsSave + 1, IdSave + 1, this.pointerCod);
 
@@ -145,23 +149,28 @@ public class LR0 {
 
                 }
 
-                if (lr.row.get(i).Is == IsSave && !lr.row.get(i).transition.equals("*") && lr.row.get(i).checked) {
+                if (lr.row.get(i).Is == IsSave && !lr.row.get(i).transition.equals("*") && lr.row.get(i).checked && lr.row.get(i).Id < 0) {
+//-----------------
 
-                    ArrayList<String> copia = (ArrayList<String>) lr.gramUser.get(i).getMyList();
-                    NTProduction auxA = new NTProduction(lr.gramUser.get(i).getNT(), movePoint((ArrayList<String>) copia.clone()));
+                    ArrayList<String> copia = (ArrayList<String>) lr.row.get(i).NTComplet.getMyList();
+                    NTProduction auxA = new NTProduction(lr.row.get(i).NTComplet.getNT(), movePoint((ArrayList<String>) copia.clone()));
 
-                    this.backStates=IsSave;
-                  
+                    this.backStates = IsSave;
+
                     codPlus++;
 
-                    ProductionLR0 aN = new ProductionLR0(codPlus, IdSave, 0, "*", auxA, false, false);
+                    ProductionLR0 aN = new ProductionLR0(codPlus, IdSave, -111111, "*", auxA, false, false);
                     aN.back = this.backStates;
-                     
+
                     lr.row.add(aN);
-                    
-                    
-                    lr0(lr, codPlus, codSave, IsSave, IdSave + 1, this.pointerCod);
-                    
+
+                    int proxState = IdSave;
+
+//                    viewRowsTable();
+//                    System.out.println("............................................");
+
+                    lr0(lr, codPlus, codSave, proxState, IdSave + 1, this.pointerCod);
+
                     return;
                 }
 
@@ -172,46 +181,81 @@ public class LR0 {
 
     }
 
-    
-    public int recursionTablaBefore(int codPlus, int back, int IsSave,  String let){
-    
-    
-        for (int g = 0; g < lr.row.size(); g++) {
+    public int NTAfterPointProd(int codPlus, String NT, int IsSave, int back) {
 
-                String aux = identifyBeforePoint(lr.row.get(g).NTComplet);
-      
-                if (lr.row.get(g).Is == back && aux.equals(let)) {
-                        
-                    
-                    ArrayList<String> copia = (ArrayList<String>) lr.row.get(g).NTComplet.getMyList();
-                    NTProduction auxA = new NTProduction(lr.row.get(g).NTComplet.getNT(), movePoint((ArrayList<String>) copia.clone()));
+        int proxCodPlus = codPlus;
 
-                  
-                    codPlus++;
+        for (int m = 0; m < lr.gramUser.size(); m++) {
 
-                    ProductionLR0 aN = new ProductionLR0(codPlus, IsSave, 0, "*", auxA, false, false);
-                    aN.back = back;
-                     
-                    lr.row.add(aN);
-                    
-                    
-                    
+            if (lr.gramUser.get(m).getNT().equals(NT)) {
 
-                }
+                codPlus++;
 
-            
+                ProductionLR0 aN = new ProductionLR0(codPlus, IsSave, -3333, "*", lr.gramUser.get(m), false, false);
+                aN.back = back;
+
+                lr.row.add(aN);
+
+            }
 
         }
-        
-        
+
+        for (int k = 0; k < lr.row.size(); k++) {
+
+            if (proxCodPlus >= lr.row.get(k).COD) {
+
+                String aux = identifyBeforePoint(lr.row.get(k).NTComplet);
+
+                for (int m = 0; m < lr.gramUser.size(); m++) {
+
+                    if (lr.gramUser.get(m).getNT().equals(aux)) {
+
+                        codPlus++;
+
+                        ProductionLR0 aN = new ProductionLR0(codPlus, IsSave, -3333, "*", lr.gramUser.get(m), false, false);
+                        aN.back = back;
+
+                        lr.row.add(aN);
+                        
+                        proxCodPlus++;
+
+                    }
+
+                }
+            }
+            
+        }
 
         return codPlus;
-    
-    
+
     }
-    
-    
-    
+
+    public int recursionTablaBefore(int codPlus, int back, int IsSave, String let) {
+
+        for (int g = 0; g < lr.row.size(); g++) {
+
+            String aux = identifyBeforePoint(lr.row.get(g).NTComplet);
+
+            if (lr.row.get(g).Is == back && aux.equals(let)) {
+
+                ArrayList<String> copia = (ArrayList<String>) lr.row.get(g).NTComplet.getMyList();
+                NTProduction auxA = new NTProduction(lr.row.get(g).NTComplet.getNT(), movePoint((ArrayList<String>) copia.clone()));
+
+                codPlus++;
+
+                ProductionLR0 aN = new ProductionLR0(codPlus, IsSave, 0, "*", auxA, false, false);
+                aN.back = back;
+
+                lr.row.add(aN);
+
+            }
+
+        }
+
+        return codPlus;
+
+    }
+
     ///Completos los estados con la marca revisado
     public boolean stateComplete(int Is) {
 
@@ -416,6 +460,7 @@ public class LR0 {
             System.out.println("COD " + lr.row.get(m).COD);
             System.out.println("Is " + lr.row.get(m).Is);
             System.out.println("Id " + lr.row.get(m).Id);
+            System.out.println("Back "+lr.row.get(m).back);
             System.out.println("Transic " + lr.row.get(m).transition);
             System.out.println("Reduc " + lr.row.get(m).reducied);
             System.out.println("Producción " + lr.row.get(m).NTComplet.getNT() + " -> " + lr.row.get(m).NTComplet.getMyList().toString());
