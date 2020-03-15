@@ -1,135 +1,48 @@
-digraph g {
-graph [
-rankdir = "LR"
-];
+digraph g {graph [fontsize=30 labelloc="t" label="" splines=true overlap=false rankdir = "LR"];ratio = auto;
+"state0" [ style = "filled, bold" penwidth = 2 fillcolor = "white" fontname = "Courier New" shape = "Mrecord" label =<
+<table border="0" cellborder="0" cellpadding="3" bgcolor="white">
+<tr><td bgcolor="black" align="center" colspan="2"><font color="white">State #0</font></td></tr><tr><td align="left" port="r0">&#40;1&#41; X-&gt;&bull;S </td></tr>
+<tr><td align="left" port="r0">&#40;2&#41; S-&gt;&bull;a A </td></tr>
+</table>> ];
 
-node [
-fontsize = "16"
-shape = "ellipse" 
-];
+"state1" [ style = "filled, bold" penwidth = 2 fillcolor = "white" fontname = "Courier New" shape = "Mrecord" label =<
+<table border="0" cellborder="0" cellpadding="3" bgcolor="white">
+<tr><td bgcolor="black" align="center" colspan="2"><font color="white">State #1</font></td></tr><tr><td align="left" port="r0">&#40;3&#41; X-&gt; S&bull;</td><td bgcolor="grey" align="right">$</td></tr>
+</table>> ];
 
-edge [
-];
+"state2" [ style = "filled, bold" penwidth = 2 fillcolor = "white" fontname = "Courier New" shape = "Mrecord" label =<
+<table border="0" cellborder="0" cellpadding="3" bgcolor="white">
+<tr><td bgcolor="black" align="center" colspan="2"><font color="white">State #2</font></td></tr><tr><td align="left" port="r0">&#40;4&#41; S-&gt; a&bull;A </td></tr>
+<tr><td align="left" port="r0">&#40;5&#41; A-&gt;&bull;b B </td></tr>
+<tr><td align="left" port="r0">&#40;6&#41; A-&gt;&bull;a A </td></tr>
+<tr><td align="left" port="r0">&#40;7&#41; A-&gt;&bull;a </td></tr>
+</table>> ];
 
-"node0" [
-label = "<f0> 0x10ba8| <f1>"
-shape = "record"
-];
+"state3" [ style = "filled, bold" penwidth = 2 fillcolor = "white" fontname = "Courier New" shape = "Mrecord" label =<
+<table border="0" cellborder="0" cellpadding="3" bgcolor="white">
+<tr><td bgcolor="black" align="center" colspan="2"><font color="white">State #3</font></td></tr><tr><td align="left" port="r0">&#40;8&#41; S-&gt; a A&bull;</td><td bgcolor="grey" align="right">$</td></tr>
+</table>> ];
 
+"state4" [ style = "filled, bold" penwidth = 2 fillcolor = "white" fontname = "Courier New" shape = "Mrecord" label =<
+<table border="0" cellborder="0" cellpadding="3" bgcolor="white">
+<tr><td bgcolor="black" align="center" colspan="2"><font color="white">State #4</font></td></tr><tr><td align="left" port="r0">&#40;9&#41; A-&gt; b&bull;B </td></tr>
+<tr><td align="left" port="r0">&#40;10&#41; B-&gt;&bull;z </td></tr>
+</table>> ];
 
-"node1" [
-label = "<f0> 0xf7fc4380| <f1> | <f2> |-1"
-shape = "record"
-];
+"state5" [ style = "filled, bold" penwidth = 2 fillcolor = "white" fontname = "Courier New" shape = "Mrecord" label =<
+<table border="0" cellborder="0" cellpadding="3" bgcolor="white">
+<tr><td bgcolor="black" align="center" colspan="2"><font color="white">State #5</font></td></tr><tr><td align="left" port="r0">&#40;11&#41; A-&gt; b B&bull;</td><td bgcolor="grey" align="right">$</td></tr>
+</table>> ];
 
-"node2" [
-label = "<f0> 0xf7fc44b8| | |2"
-shape = "record"
-];
+"state6" [ style = "filled, bold" penwidth = 2 fillcolor = "white" fontname = "Courier New" shape = "Mrecord" label =<
+<table border="0" cellborder="0" cellpadding="3" bgcolor="white">
+<tr><td bgcolor="black" align="center" colspan="2"><font color="white">State #6</font></td></tr><tr><td align="left" port="r0">&#40;12&#41; B-&gt; z&bull;</td><td bgcolor="grey" align="right">$</td></tr>
+</table>> ];
 
-"node3" [
-label = "<f0> 3.43322790286038071e-06|44.79998779296875|0"
-shape = "record"
-];
-
-"node4" [
-label = "<f0> 0xf7fc4380| <f1> | <f2> |2"
-shape = "record"
-];
-
-"node5" [
-label = "<f0> (nil)| | |-1"
-shape = "record"
-];
-
-"node6" [
-label = "<f0> 0xf7fc4380| <f1> | <f2> |1"
-shape = "record"
-];
-
-"node7" [
-label = "<f0> 0xf7fc4380| <f1> | <f2> |2"
-shape = "record"
-];
-
-"node8" [
-label = "<f0> (nil)| | |-1"
-shape = "record"
-];
-
-"node9" [
-label = "<f0> (nil)| | |-1"
-shape = "record"
-];
-
-"node10" [
-label = "<f0> (nil)| <f1> | <f2> |-1"
-shape = "record"
-];
-
-"node11" [
-label = "<f0> (nil)| <f1> | <f2> |-1"
-shape = "record"
-];
-
-"node12" [
-label = "<f0> 0xf7fc43e0| | |1"
-shape = "record"
-];
-
-
-"node0":f0 -> "node1":f0 [
-id = 0
-label ='ok'
-];
-"node0":f1 -> "node2":f0 [
-id = 1
-];
-"node1":f0 -> "node3":f0 [
-id = 2
-];
-"node1":f1 -> "node4":f0 [
-id = 3
-];
-"node1":f2 -> "node5":f0 [
-id = 4
-];
-"node4":f0 -> "node3":f0 [
-id = 5
-];
-"node4":f1 -> "node6":f0 [
-id = 6
-];
-"node4":f2 -> "node10":f0 [
-id = 7
-];
-"node6":f0 -> "node3":f0 [
-id = 8
-];
-"node6":f1 -> "node7":f0 [
-id = 9
-];
-"node6":f2 -> "node9":f0 [
-id = 10
-];
-"node7":f0 -> "node3":f0 [
-id = 11
-];
-"node7":f1 -> "node1":f0 [
-id = 12
-];
-"node7":f2 -> "node8":f0 [
-id = 13
-
-];
-"node10":f1 -> "node11":f0 [
-id = 14
-];
-"node10":f2 -> "node12":f0 [
-id = 15
-];
-"node11":f2 -> "node1":f0 [
-id = 16
-];
-
+state0 -> state1 [ penwidth = 1 fontsize = 14 fontcolor = "black" label = "S" ];
+state0 -> state2 [ penwidth = 1 fontsize = 14 fontcolor = "black" label = "a" ];
+state2 -> state3 [ penwidth = 1 fontsize = 14 fontcolor = "black" label = "A" ];
+state2 -> state4 [ penwidth = 1 fontsize = 14 fontcolor = "black" label = "b" ];
+state4 -> state5 [ penwidth = 1 fontsize = 14 fontcolor = "black" label = "B" ];
+state4 -> state6 [ penwidth = 1 fontsize = 14 fontcolor = "black" label = "z" ];
 }

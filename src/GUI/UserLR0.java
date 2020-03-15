@@ -15,6 +15,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -24,14 +26,13 @@ import javax.swing.JOptionPane;
  */
 public class UserLR0 extends javax.swing.JFrame {
 
-    
     List<NTProduction> gramUser = new ArrayList<>();
-    
+
     TableLR0 tableM;
-    
+
     public UserLR0() {
         initComponents();
-       
+
         setLocationRelativeTo(null);
     }
 
@@ -111,26 +112,34 @@ public class UserLR0 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
-        
-        abrirArchivo();   
+
+        abrirArchivo();
     }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
 
     private void jCheckBoxMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem2ActionPerformed
-       
-           
-        tableM= new TableLR0("Example",gramUser);
-        
+
+        tableM = new TableLR0("Example", gramUser);
+
         Paint write = new Paint();
-        
+
         LR0 test = new LR0(tableM);
         test.lr0(tableM, 0, 0, 0, 0, 0);
         System.out.println("********************************");
-       // test.viewRowsTable();
-        
-      String doc=  write.makeDocument(test);
-        System.out.println(doc);
-      
-        
+        // test.viewRowsTable();
+        try {
+            // String doc=  write.makeDocument(test);
+            ///   System.out.println(doc);
+
+            write.writeDocument(test);
+            write.loadDocument();
+
+            System.out.println("Documento cargado");
+
+        } catch (IOException ex) {
+            Logger.getLogger(UserLR0.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_jCheckBoxMenuItem2ActionPerformed
 
     /**
@@ -169,10 +178,9 @@ public class UserLR0 extends javax.swing.JFrame {
     }
 
     private void abrirArchivo() {
-       String aux = "";
-       String texto = "";
-       
-       
+        String aux = "";
+        String texto = "";
+
         try {
 
             JFileChooser file = new JFileChooser();
@@ -184,9 +192,9 @@ public class UserLR0 extends javax.swing.JFrame {
                 BufferedReader lee = new BufferedReader(archivos);
                 while ((aux = lee.readLine()) != null) {
                     texto += aux + "\n";
-                   
-                    String cadena[]=aux.split(" ");
-                    
+
+                    String cadena[] = aux.split(" ");
+
                     gramUser.add(new NTProduction(cadena[0], cadena));
                 }
                 lee.close();
@@ -196,22 +204,18 @@ public class UserLR0 extends javax.swing.JFrame {
                     + "\nNo se ha encontrado el archivo",
                     "ADVERTENCIA!!!", JOptionPane.WARNING_MESSAGE);
         }
-       
+
         fileText.setText(texto);
-        
-        
+
         //tableM= new TableLR0("Example",gramUser);
-        
-      //  seeArray(tableM.getGramUser());
+        //  seeArray(tableM.getGramUser());
         //System.out.println(tableM.getNameTable());
     }
-    
-    
-    
-    public void seeArray(List<NTProduction> gramUser){
-    
+
+    public void seeArray(List<NTProduction> gramUser) {
+
         for (int i = 0; i < gramUser.size(); i++) {
-            
+
             System.out.println(gramUser.get(i).getNT());
             System.out.println(gramUser.get(i).getMyList().toString());
             System.out.println("------------------------------------------");

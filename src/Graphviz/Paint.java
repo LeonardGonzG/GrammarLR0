@@ -20,7 +20,7 @@ public class Paint {
     String rowLetter = "-&gt;";
     String parentOpen = "&#40;";
     String parentClose = "&#41;";
-    String reducidedProd = "<td bgcolor=\"grey\" align=\"right\">$</td></tr>";
+    String reducidedProd = "<td bgcolor=\"grey\" align=\"right\">$</td>";
 
     public void writeDocument(LR0 table) throws IOException {
         /*
@@ -32,12 +32,12 @@ public class Paint {
          System.out.println("El fichero no puede ser borrado");
          }
          */
+        
+        FileWriter fichero = new FileWriter("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\LR0\\src\\Graphviz\\File\\file1.dot");
 
-        FileWriter fichero = new FileWriter("C:\\Users\\Usuario\\Documents\\NetBeansProjects\\LR0\\src\\Graphviz\\File\\file.dot");
+        String doc= makeDocument(table);
 
-        String texto = "";
-
-        fichero.write(texto);
+        fichero.write(doc);
         fichero.close();
     }
 
@@ -49,7 +49,7 @@ public class Paint {
             String dotPath = "C:\\graphviz-2.38\\bin\\dot.exe";
 
 //path del archivo creado con el codigo del graphviz que queremos
-            String fileInputPath = "C:\\Users\\Usuario\\Documents\\NetBeansProjects\\LR0\\src\\Graphviz\\File\\file.dot";
+            String fileInputPath = "C:\\Users\\Usuario\\Documents\\NetBeansProjects\\LR0\\src\\Graphviz\\File\\file1.dot";
 
 //path de salida del grafo, es decir el path de la imagen que vamos a crear con graphviz
             String fileOutputPath = "C:\\Users\\Usuario\\Documents\\NetBeansProjects\\LR0\\src\\Graphviz\\File\\AutomatonGrammar.png";
@@ -94,9 +94,9 @@ public class Paint {
         while (contCodEnd <= numStatesTable) {
 
             nameState = "state" + contCodEnd;
-            m += "\"" + nameState + "\" [ style = \"filled, bold\" penwidth = 5 fillcolor = \"white\" fontname = \"Courier New\" shape = \"Mrecord\" label =<" + "\n";
+            m += "\"" + nameState + "\" [ style = \"filled, bold\" penwidth = 2 fillcolor = \"white\" fontname = \"Courier New\" shape = \"Mrecord\" label =<" + "\n";
             m += "<table border=\"0\" cellborder=\"0\" cellpadding=\"3\" bgcolor=\"white\">" + "\n";
-
+            m+="<tr><td bgcolor=\"black\" align=\"center\" colspan=\"2\"><font color=\"white\">State #"+contCodEnd+"</font></td></tr>";
             for (int i = 0; i < t.lr.row.size(); i++) {
 
                 if (t.lr.row.get(i).Is == contCodEnd) {
@@ -113,7 +113,7 @@ public class Paint {
 
             if (t.lr.row.get(x).Id > 0 && t.lr.row.get(x).Id < 9999) {
                 String trans = "state" + t.lr.row.get(x).Is + " -> " + "state" + t.lr.row.get(x).Id + " "
-                        + "[ penwidth = 5 fontsize = 28 fontcolor = \"black\" label = \"" + t.lr.row.get(x).transition + "\" ];" + "\n";
+                        + "[ penwidth = 1 fontsize = 14 fontcolor = \"black\" label = \"" + t.lr.row.get(x).transition + "\" ];" + "\n";
                 m += trans;
 
             }
@@ -148,7 +148,7 @@ public class Paint {
             prod += reducidedProd;
 
         }
-        prod += "</tr>";
+        prod += "</tr>"+"\n";
 
         return prod;
 
