@@ -117,7 +117,9 @@ public class UserLR0 extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
 
     private void jCheckBoxMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem2ActionPerformed
-
+        pintar pin= new pintar();
+        pin.setVisible(true);
+        this.dispose();
         tableM = new TableLR0("Example", gramUser);
 
         Paint write = new Paint();
