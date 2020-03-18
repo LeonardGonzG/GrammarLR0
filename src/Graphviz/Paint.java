@@ -52,7 +52,7 @@ public class Paint {
             String fileInputPath = "C:\\Users\\Usuario\\Documents\\NetBeansProjects\\LR0\\src\\Graphviz\\File\\file1.dot";
 
 //path de salida del grafo, es decir el path de la imagen que vamos a crear con graphviz
-            String fileOutputPath = "C:\\Users\\Usuario\\Documents\\NetBeansProjects\\LR0\\src\\Graphviz\\File\\AutomatonGrammar.png";
+            String fileOutputPath = "C:\\Users\\Usuario\\Documents\\NetBeansProjects\\LR0\\src\\Graphviz\\File\\AutomatonGrammar.PNG";
 
 //tipo de imagen de salida, en este caso es jpg
             String tParam = "-Tjpg";
