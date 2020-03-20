@@ -78,7 +78,6 @@ public class LR0 {
 
 //                            viewRowsTable();
 //                            System.out.println("............................................");
-
                             lr0(lr, codPlus, codSave, lr.row.get(i).back, IdSave, this.pointerCod + 1);
                         } else {
 
@@ -90,35 +89,33 @@ public class LR0 {
 
                     } else {
 
-                        lr.row.get(i).Id = IdSave;
-                        lr.row.get(i).back = this.backStates;
-                        lr.row.get(i).checked = true;
-                        lr.row.get(i).reducied = false;
-                        lr.row.get(i).transition = aux;
+                            lr.row.get(i).Id = IdSave;
+                           // lr.row.get(i).back = this.backStates;
+                            lr.row.get(i).checked = true;
+                            lr.row.get(i).reducied = false;
+                            lr.row.get(i).transition = aux;
 
-                    
-                        //Miramos primero que hay antes del punto                   
-                        ArrayList<String> copia = (ArrayList<String>) lr.row.get(i).NTComplet.getMyList();
-                        NTProduction auxA = new NTProduction(lr.row.get(i).NTComplet.getNT(), movePoint((ArrayList<String>) copia.clone()));
+                            //Miramos primero que hay antes del punto                   
+                            ArrayList<String> copia = (ArrayList<String>) lr.row.get(i).NTComplet.getMyList();
+                            NTProduction auxA = new NTProduction(lr.row.get(i).NTComplet.getNT(), movePoint((ArrayList<String>) copia.clone()));
 
-                        this.backStates = IsSave;
+                            this.backStates = IsSave;
 
-                        codPlus++;
+                            codPlus++;
 
-                        ProductionLR0 aN = new ProductionLR0(codPlus, IdSave, -3333, "*", auxA, false, false);
-                        aN.back = this.backStates;
-                        lr.row.add(aN);
+                            ProductionLR0 aN = new ProductionLR0(codPlus, IdSave, -3333, "*", auxA, false, false);
+                            aN.back = this.backStates;
+                            lr.row.add(aN);
 
-                        String m = identifyAfterPoint(auxA);
-                        //Agregar estados después del punto
-                        codPlus = NTAfterPointProd(codPlus, m, IdSave, this.backStates);
+                            String m = identifyAfterPoint(auxA);
+                            //Agregar estados después del punto
+                            codPlus = NTAfterPointProd(codPlus, m, IdSave, this.backStates);
 
-                        lr0(lr, codPlus, codSave, IdSave, IdSave + 1, this.pointerCod);
-                        //////FINALIZACIÓN DE ALGOTIMO
-                        
-                        //FALTA VERIFICAR QUE LOS ESTADOS YA EXISTEN
-                        return;
+                            lr0(lr, codPlus, codSave, IdSave, IdSave + 1, this.pointerCod);
+                      
+                            return;
 
+                      
                     }
 
                     break;
@@ -135,6 +132,8 @@ public class LR0 {
                     ArrayList<String> copia = (ArrayList<String>) lr.row.get(i).NTComplet.getMyList();
                     NTProduction auxA = new NTProduction(lr.row.get(i).NTComplet.getNT(), movePoint((ArrayList<String>) copia.clone()));
 
+                    this.backStates = IsSave;
+                    
                     codPlus++;
 
                     ProductionLR0 aN = new ProductionLR0(codPlus, IdSave, -22222, "*", auxA, false, false);
@@ -144,7 +143,6 @@ public class LR0 {
 
 //                    viewRowsTable();
 //                    System.out.println("............................................");
-
                     lr0(lr, codPlus, codSave, IsSave + 1, IdSave + 1, this.pointerCod);
 
                     break;
@@ -167,10 +165,9 @@ public class LR0 {
                     lr.row.add(aN);
 
                     int proxState = IdSave;
-
+//
 //                    viewRowsTable();
-//                    System.out.println("............................................");
-
+//                   System.out.println("............................................");
                     lr0(lr, codPlus, codSave, proxState, IdSave + 1, this.pointerCod);
 
                     return;
@@ -180,6 +177,54 @@ public class LR0 {
 
         }
         ///Continuación de condicional
+
+    }
+
+    public boolean verifyStateExist(ProductionLR0 NT) {
+
+        for (int i = 0; i < lr.row.size(); i++) {
+
+            if (NT.NTComplet.getNT().equals(lr.row.get(i).NTComplet.getNT())
+                    && lr.row.get(i).checked
+                    && NT.transition.equals(lr.row.get(i).transition)) {
+
+                boolean exist = compareProduction(NT.NTComplet.getMyList(), lr.row.get(i).NTComplet.getMyList());
+
+                ////MODIFICAR DATOS DE LAS PRODUCCIONES QUE APUN
+            }
+
+        }
+
+        return false;
+
+    }
+
+    public boolean compareProduction(ArrayList<String> a, ArrayList<String> b) {
+
+        if (a.size() != b.size()) {
+            return false;
+
+        } else {
+
+            int cont = 0;
+
+            for (int x = 0; x < a.size(); x++) {
+
+                if (a.get(x).equals(b.get(x))) {
+                    cont++;
+
+                }
+
+            }
+
+            if (cont == a.size()) {
+                return true;
+
+            }
+
+        }
+
+        return false;
 
     }
 
@@ -218,14 +263,14 @@ public class LR0 {
                         aN.back = back;
 
                         lr.row.add(aN);
-                        
+
                         proxCodPlus++;
 
                     }
 
                 }
             }
-            
+
         }
 
         return codPlus;
@@ -305,7 +350,7 @@ public class LR0 {
                             codPlus++;
 
                             ProductionLR0 mon = new ProductionLR0(codPlus, IsSave, -1, "*", lr.gramUser.get(x), false, false);
-                            mon.back = this.backStates;
+                            mon.back = lr.row.get(g).back;///Se actualizó
 
                             lr.row.add(mon);
                             this.pointerCodEnd = codPlus;
@@ -462,7 +507,7 @@ public class LR0 {
             System.out.println("COD " + lr.row.get(m).COD);
             System.out.println("Is " + lr.row.get(m).Is);
             System.out.println("Id " + lr.row.get(m).Id);
-            System.out.println("Back "+lr.row.get(m).back);
+            System.out.println("Back " + lr.row.get(m).back);
             System.out.println("Transic " + lr.row.get(m).transition);
             System.out.println("Reduc " + lr.row.get(m).reducied);
             System.out.println("Producción " + lr.row.get(m).NTComplet.getNT() + " -> " + lr.row.get(m).NTComplet.getMyList().toString());
@@ -472,9 +517,5 @@ public class LR0 {
         }
 
     }
-
- 
-    
-    
 
 }

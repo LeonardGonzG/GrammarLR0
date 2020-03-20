@@ -37,7 +37,7 @@ public class NTProduction {
 
     }
 
-    public List<String> getMyList() {
+    public ArrayList<String> getMyList() {
         return myList;
     }
 
