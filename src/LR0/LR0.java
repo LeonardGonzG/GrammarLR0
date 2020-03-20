@@ -56,6 +56,20 @@ public class LR0 {
 
             //  int codSaveView= codPlus;
             for (int i = 0; i < lr.row.size(); i++) {
+                
+                
+//                //Estados completos revisados, volvel al estado anterior y revisar producciones
+//                if(lr.row.get(i).Is == IsSave && stateComplete(lr.row.get(i).Is)){
+//                    
+//                    
+//                     System.out.println("OK!!!!");   
+//                     lr0(lr, codPlus, codSave, lr.row.get(i).back, IdSave, this.pointerCod + 1);
+//                
+//                     return;
+//                }
+                
+                
+                
 
                 if (lr.row.get(i).Is == IsSave && lr.row.get(i).transition.equals("*")) {
 
@@ -88,7 +102,9 @@ public class LR0 {
                         }
 
                     } else {
-
+                        
+                        if(!verifyStateExist(lr.row.get(i))){ //Verifica si hay una producción igual, sino es así sigue a generar los nuevos estados
+                        
                             lr.row.get(i).Id = IdSave;
                            // lr.row.get(i).back = this.backStates;
                             lr.row.get(i).checked = true;
@@ -114,6 +130,13 @@ public class LR0 {
                             lr0(lr, codPlus, codSave, IdSave, IdSave + 1, this.pointerCod);
                       
                             return;
+                        
+                        
+                       }
+                        
+                        
+
+                            
 
                       
                     }
@@ -191,6 +214,28 @@ public class LR0 {
                 boolean exist = compareProduction(NT.NTComplet.getMyList(), lr.row.get(i).NTComplet.getMyList());
 
                 ////MODIFICAR DATOS DE LAS PRODUCCIONES QUE APUN
+                
+                if(exist){
+                
+                   
+                    
+                    for(int m=0; m<lr.row.size(); m++){
+                    
+                    
+                        if(lr.row.get(m).COD==NT.COD){
+                        
+                            lr.row.get(m).Id = lr.row.get(i).Id;
+                            lr.row.get(m).checked = true;
+                            
+                            return true;
+                        }
+                    
+                    }
+                    
+                    
+                    
+                }
+                
             }
 
         }

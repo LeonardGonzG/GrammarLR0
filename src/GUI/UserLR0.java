@@ -62,9 +62,10 @@ public class UserLR0 extends javax.swing.JFrame {
         setResizable(false);
 
         fileText.setEditable(false);
+        fileText.setBackground(new java.awt.Color(0, 0, 0));
         fileText.setColumns(20);
         fileText.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
-        fileText.setForeground(new java.awt.Color(0, 0, 0));
+        fileText.setForeground(new java.awt.Color(255, 255, 255));
         fileText.setRows(5);
         jScrollPane1.setViewportView(fileText);
 
@@ -148,7 +149,8 @@ public class UserLR0 extends javax.swing.JFrame {
             write.writeDocument(test);
             write.loadDocument();
 
-            System.out.println("Documento cargado");
+            System.out.println("Document upload - Image Created");
+            JOptionPane.showMessageDialog(null, "You can look the automaton LR(0)");
 
         } catch (IOException ex) {
             Logger.getLogger(UserLR0.class.getName()).log(Level.SEVERE, null, ex);
@@ -223,6 +225,8 @@ public class UserLR0 extends javax.swing.JFrame {
                     gramUser.add(new NTProduction(cadena[0], cadena));
                 }
                 lee.close();
+                
+                JOptionPane.showMessageDialog(null, "Document successfully uploaded");
             }
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, ex + ""
